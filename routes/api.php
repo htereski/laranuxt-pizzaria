@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -8,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 // })->middleware('auth:sanctum');
 
 
-Route::get('/', function () {
-    return 'ping';
-});
+// Route::get('/', function () {
+//     return 'ping';
+// });
+
+Route::post('/register', [UserController::class, 'register']);
