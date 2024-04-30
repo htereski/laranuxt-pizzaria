@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,7 +14,11 @@ class AuthController extends Controller
             return response()->json(['message' => 'Not Authorized'], 403);
         }
 
-        $token = $request->user()->createToken('login')->plainTextToken;
+        $user = $request->user();
+
+        $role = Role::find($user->role_id);
+
+        $token = $user->createToken('login', [$role->name])->plainTextToken;
 
         return response()->json(['message' => 'Authorized'], 200, ['token' => $token]);
     }
