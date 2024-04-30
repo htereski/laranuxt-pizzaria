@@ -20,6 +20,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('/pizzas')->group(function () {
         Route::get('/{id}', [PizzaController::class, 'index']);
-        Route::post('/create', [PizzaController::class, 'store']);
+        Route::post('/create', [PizzaController::class, 'store'])->middleware('ability:Admin,Employee');
     });
 });

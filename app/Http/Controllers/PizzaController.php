@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-use function Laravel\Prompts\error;
-
 class PizzaController extends Controller
 {
     public function index($id)
