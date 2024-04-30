@@ -34,6 +34,6 @@ class UserController extends Controller
         $user->role()->associate($role);
         $user->save();
 
-        return response(['message' => 'User created', 'data' => $user], 200);
+        return response()->json(['message' => 'User created'], 200);
     }
 }
