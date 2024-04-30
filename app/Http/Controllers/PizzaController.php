@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\PizzaResourceCollection;
-use App\Models\Kind;
 use App\Models\Pizza;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+
+use function Laravel\Prompts\error;
 
 class PizzaController extends Controller
 {
@@ -20,5 +23,24 @@ class PizzaController extends Controller
         $pizzas = new PizzaResourceCollection($data);
 
         return response()->json(['data' => $pizzas], 200);
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->only(['name', 'kind_id']), [
+            'name' => ['required', 'string', 'max:255', Rule::unique('pizzas')],
+            'kind_id' => ['required', 'exists:kinds,id'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Data invalid', 'erros' => $validator->errors()], 400);
+        }
+
+        $pizza = new Pizza();
+        $pizza->name = $request->name;
+        $pizza->kind_id = $request->kind_id;
+        $pizza->save();
+
+        return response()->json(['message' => 'Pizza Created'], 201);
     }
 }
