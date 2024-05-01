@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PizzaResource;
 use App\Http\Resources\PizzaResourceCollection;
 use App\Models\Pizza;
 use Illuminate\Http\Request;
@@ -40,5 +41,12 @@ class PizzaController extends Controller
         $pizza->save();
 
         return response()->json(['message' => 'Pizza Created'], 201);
+    }
+
+    public function show($id)
+    {
+        $pizza = new PizzaResource(Pizza::find($id));
+
+        return response()->json(['data' => $pizza], 200);
     }
 }
