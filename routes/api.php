@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/home', [KindController::class, 'home']);
 
     Route::prefix('/pizzas')->group(function () {
-        Route::get('/{id}', [PizzaController::class, 'index']);
+        Route::get('/category/{id}', [PizzaController::class, 'index']);
         Route::post('/create', [PizzaController::class, 'store'])->middleware('ability:Admin,Employee');
     });
 });
