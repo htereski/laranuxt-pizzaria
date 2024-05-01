@@ -20,8 +20,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('/pizzas')->group(function () {
         Route::get('/category/{id}', [PizzaController::class, 'index']);
-        Route::post('/create', [PizzaController::class, 'store'])->middleware('ability:Admin,Employee');
         Route::get('/{id}', [PizzaController::class, 'show']);
+        Route::post('/create', [PizzaController::class, 'store'])->middleware('ability:Admin,Employee');
+        Route::put('/update/{id}', [PizzaController::class, 'update'])->middleware('ability:Admin');
         Route::delete('/{id}', [PizzaController::class, 'destroy'])->middleware('ability:Admin');
     });
 });
