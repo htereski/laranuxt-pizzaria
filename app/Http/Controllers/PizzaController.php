@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PizzaRequest;
 use App\Http\Resources\PizzaResource;
 use App\Http\Resources\PizzaResourceCollection;
 use App\Models\Pizza;
@@ -26,21 +27,19 @@ class PizzaController extends Controller
 
     public function show($id)
     {
-        $pizza = new PizzaResource(Pizza::find($id));
+        $data = Pizza::find($id);
 
-        return response()->json(['data' => $pizza], 200);
+        if ($data) {
+            $pizza = new PizzaResource($data);
+            return response()->json(['data' => $pizza], 200);
+        }
+
+        return response()->json(['message' => 'Pizza not founded'], 400);
     }
 
-    public function store(Request $request)
+    public function store(PizzaRequest $request)
     {
-        $validator = Validator::make($request->only(['name', 'kind_id']), [
-            'name' => ['required', 'string', 'max:255', Rule::unique('pizzas')],
-            'kind_id' => ['required', 'exists:kinds,id'],
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['message' => 'Data invalid', 'erros' => $validator->errors()], 400);
-        }
+        $request->validated();
 
         $pizza = new Pizza();
         $pizza->name = $request->name;
@@ -50,19 +49,12 @@ class PizzaController extends Controller
         return response()->json(['message' => 'Pizza Created'], 201);
     }
 
-    public function update(Request $request, $id)
+    public function update(PizzaRequest $request, $id)
     {
         $data = Pizza::find($id);
 
         if ($data) {
-            $validator = Validator::make($request->only(['name', 'kind_id']), [
-                'name' => ['required','string','max:255', Rule::unique('pizzas')->ignore($id)],
-                'kind_id' => ['required', 'exists:kinds,id'],
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json(['message' => 'Data invalid', 'erros' => $validator->errors()], 400);
-            }
+            $request->validated();
 
             $data->name = $request->name;
             $data->kind_id = $request->kind_id;
@@ -70,6 +62,8 @@ class PizzaController extends Controller
 
             return response()->json(['message' => 'Pizza Updated'], 200);
         }
+
+        return response()->json(['message' => 'Pizza not founded'], 400);
     }
 
     public function destroy($id)
