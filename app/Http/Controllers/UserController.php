@@ -2,28 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
-    public function register(Request $request)
+    public function register(UserRequest $request)
     {
-
-        $validator = Validator::make($request->only(['name', 'email', 'password']), [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', Rule::unique('users')],
-            'password' => ['required', Password::min(8)]
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['message' => 'Data invalid', 'errors' => $validator->errors()], 400,);
-        }
+        $request->validated();
 
         $role = Role::where('name', 'Custumer')->first();
 
