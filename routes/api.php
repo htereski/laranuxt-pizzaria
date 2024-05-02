@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KindController;
 use App\Http\Controllers\PizzaController;
+use App\Http\Controllers\PizzaOrderController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -49,5 +50,9 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::put('/{id}', [SizeController::class, 'update']);
             Route::delete('/{id}', [SizeController::class, 'destroy']);
         });
+    });
+
+    Route::prefix('/pizza-orders')->group(function () {
+        Route::get('/', [PizzaOrderController::class, 'index'])->middleware('ability:Admin,Employee');
     });
 });
