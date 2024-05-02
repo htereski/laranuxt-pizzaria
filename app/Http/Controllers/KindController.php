@@ -59,4 +59,17 @@ class KindController extends Controller
 
         return response()->json(['message' => 'Kind not founded'], 400);
     }
+
+    public function destroy($id)
+    {
+        $kind = Kind::find($id);
+
+        if ($kind) {
+            $kind->delete();
+
+            return response()->json(['message' => 'Kind Deleted'], 200);
+        }
+
+        return response()->json(['message' => 'Kind not founded'], 400);
+    }
 }
