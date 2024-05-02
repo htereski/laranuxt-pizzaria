@@ -51,4 +51,28 @@ class SizeController extends Controller
 
         return response()->json(['message' => 'Size created'], 200);
     }
+
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->only(['name', 'value']), [
+            'name' => ['required', 'max:255', Rule::unique('sizes')->ignore($id)],
+            'value' => ['required', 'numeric', 'min:1']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Data invalid', 'errors' => $validator->errors()], 400);
+        }
+
+        $size = Size::find($id);
+
+        if ($size) {
+            $size->name = $request->name;
+            $size->value = $request->value;
+            $size->save();
+
+            return response()->json(['message' => 'Size Updated'], 200);
+        }
+
+        return response()->json(['message' => 'Size not founded'], 400);
+    }
 }

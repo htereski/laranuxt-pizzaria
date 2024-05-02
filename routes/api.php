@@ -44,5 +44,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [SizeController::class, 'index']);
         Route::get('/{id}', [SizeController::class, 'show']);
         Route::post('/', [SizeController::class, 'store'])->middleware('ability:Admin,Employee');
+
+        Route::middleware('ability:Admin')->group(function () {
+            Route::put('/{id}', [SizeController::class, 'update']);
+        });
     });
 });
