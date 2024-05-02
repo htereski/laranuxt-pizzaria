@@ -32,5 +32,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('/kinds')->group(function () {
         Route::get('/', [KindController::class, 'index']);
         Route::post('/', [KindController::class, 'store'])->middleware('ability:Admin,Employee');
+        Route::put('/{id}', [KindController::class, 'update'])->middleware('ability:Admin');
     });
 });

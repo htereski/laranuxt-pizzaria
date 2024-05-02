@@ -35,4 +35,28 @@ class KindController extends Controller
 
         return response()->json(['message' => 'Kind Created'], 201);
     }
+
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->only(['name', 'multiplier']), [
+            'name' => ['required', 'max:255', Rule::unique('kinds')->ignore($id)],
+            'multiplier' => ['required', 'numeric', 'min:1']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Data invalid', 'errors' => $validator->errors()], 400);
+        }
+
+        $kind = Kind::find($id);
+
+        if ($kind) {
+            $kind->name = $request->name;
+            $kind->multiplier = $request->multiplier;
+            $kind->save();
+
+            return response()->json(['message' => 'Kind Updated'], 200);
+        }
+
+        return response()->json(['message' => 'Kind not founded'], 400);
+    }
 }
