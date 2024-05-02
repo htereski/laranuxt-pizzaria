@@ -32,7 +32,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('/kinds')->group(function () {
         Route::get('/', [KindController::class, 'index']);
         Route::post('/', [KindController::class, 'store'])->middleware('ability:Admin,Employee');
-        Route::put('/{id}', [KindController::class, 'update'])->middleware('ability:Admin');
-        Route::delete('/{id}', [KindController::class, 'destroy'])->middleware('ability:Admin');
+
+        Route::middleware('ability:Admin')->group(function () {
+            Route::put('/{id}', [KindController::class, 'update']);
+            Route::delete('/{id}', [KindController::class, 'destroy']);
+        });
     });
 });
