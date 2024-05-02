@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PizzaOrderRequest;
 use App\Http\Resources\PizzaOrderResource;
 use App\Http\Resources\PizzaOrderResourceCollection;
 use App\Models\PizzaOrder;
-use Illuminate\Http\Request;
 
 class PizzaOrderController extends Controller
 {
@@ -29,5 +29,19 @@ class PizzaOrderController extends Controller
         }
 
         return response()->json(['message' => 'Pizza Order not founded'], 400);
+    }
+
+    public function store(PizzaOrderRequest $request)
+    {
+        $request->validated();
+
+        $pizzaOrder = new PizzaOrder();
+        $pizzaOrder->value = $request->value;
+        $pizzaOrder->pizza_id = $request->pizza_id;
+        $pizzaOrder->size_id = $request->size_id;
+        $pizzaOrder->user_id = $request->user_id;
+        $pizzaOrder->save();
+
+        return response()->json(['message' => 'Pizza Order Created'], 200);
     }
 }
