@@ -6,6 +6,7 @@ use App\Http\Controllers\PizzaController;
 use App\Http\Controllers\PizzaOrderController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\PizzaOrderMiddleware;
 use Illuminate\Support\Facades\Route;
 
 
@@ -54,5 +55,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('/pizza-orders')->group(function () {
         Route::get('/', [PizzaOrderController::class, 'index'])->middleware('ability:Admin,Employee');
+
+        Route::get('/{id}', [PizzaOrderController::class, 'show'])->middleware(PizzaOrderMiddleware::class);
     });
 });
