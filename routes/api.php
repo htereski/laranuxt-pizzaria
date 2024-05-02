@@ -43,5 +43,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('/sizes')->group(function () {
         Route::get('/', [SizeController::class, 'index']);
         Route::get('/{id}', [SizeController::class, 'show']);
+        Route::post('/', [SizeController::class, 'store'])->middleware('ability:Admin,Employee');
     });
 });

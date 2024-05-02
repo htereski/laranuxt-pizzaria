@@ -6,6 +6,8 @@ use App\Http\Resources\SizeResource;
 use App\Http\Resources\SizeResourceCollection;
 use App\Models\Size;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class SizeController extends Controller
 {
@@ -29,5 +31,24 @@ class SizeController extends Controller
         }
 
         return response()->json(['message' => 'Size not founded'], 400);
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->only(['name', 'value']), [
+            'name' => ['required', 'max:255', Rule::unique('sizes')],
+            'value' => ['required', 'numeric', 'min:1']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Data invalid', 'errors' => $validator->errors()], 400);
+        }
+
+        $size = new Size();
+        $size->name = $request->name;
+        $size->value = $request->value;
+        $size->save();
+
+        return response()->json(['message' => 'Size created'], 200);
     }
 }
