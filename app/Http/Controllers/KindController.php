@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class KindController extends Controller
 {
-    public function home()
+    public function index()
     {
         $kinds = new KindResourceCollection(Kind::all());
 

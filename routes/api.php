@@ -16,7 +16,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout']);
-    Route::get('/home', [KindController::class, 'home']);
+    Route::get('/home', [KindController::class, 'index']);
 
     Route::prefix('/pizzas')->group(function () {
         Route::get('/category/{id}', [PizzaController::class, 'index']);
@@ -27,5 +27,9 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::put('/update/{id}', [PizzaController::class, 'update']);
             Route::delete('/{id}', [PizzaController::class, 'destroy']);
         });
+    });
+
+    Route::prefix('/kinds')->group(function () {
+        Route::get('/', [KindController::class, 'index']);
     });
 });
