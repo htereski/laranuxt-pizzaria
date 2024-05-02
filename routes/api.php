@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KindController;
 use App\Http\Controllers\PizzaController;
+use App\Http\Controllers\SizeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,5 +38,9 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::put('/{id}', [KindController::class, 'update']);
             Route::delete('/{id}', [KindController::class, 'destroy']);
         });
+    });
+
+    Route::prefix('/sizes')->group(function () {
+        Route::get('/', [SizeController::class, 'index']);
     });
 });
