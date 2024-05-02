@@ -59,5 +59,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{id}', [PizzaOrderController::class, 'show'])->middleware(PizzaOrderMiddleware::class);
 
         Route::post('/', [PizzaOrderController::class, 'store']);
+        Route::put('/{id}', [PizzaOrderController::class, 'update'])->middleware('ability:Admin,Employee');
     });
 });

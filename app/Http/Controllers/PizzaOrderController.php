@@ -44,4 +44,23 @@ class PizzaOrderController extends Controller
 
         return response()->json(['message' => 'Pizza Order Created'], 200);
     }
+
+    public function update(PizzaOrderRequest $request, $id)
+    {
+        $request->validated();
+
+        $pizzaOrder = PizzaOrder::find($id);
+
+        if ($pizzaOrder) {
+            $pizzaOrder->value = $request->value;
+            $pizzaOrder->pizza_id = $request->pizza_id;
+            $pizzaOrder->size_id = $request->size_id;
+            $pizzaOrder->user_id = $request->user_id;
+            $pizzaOrder->save();
+
+            return response()->json(['message' => 'Pizza Order Updated'], 200);
+        }
+
+        return response()->json(['message' => 'Pizza Order not founded'], 400);
+    }
 }
