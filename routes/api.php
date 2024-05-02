@@ -54,13 +54,16 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('/pizza-orders')->group(function () {
-        Route::get('/', [PizzaOrderController::class, 'index'])->middleware('ability:Admin,Employee');
+        Route::middleware('ability:Admin')->group(function () {
+            Route::put('/{id}', [PizzaOrderController::class, 'update']);
+            Route::delete('/{id}', [PizzaOrderController::class, 'destroy']);
+        });
 
-        Route::get('/{id}', [PizzaOrderController::class, 'show'])->middleware(PizzaOrderMiddleware::class);
+        Route::middleware(PizzaOrderMiddleware::class)->group(function () {
+            Route::get('/', [PizzaOrderController::class, 'index']);
+            Route::get('/{id}', [PizzaOrderController::class, 'show']);
+        });
 
         Route::post('/', [PizzaOrderController::class, 'store']);
-        Route::put('/{id}', [PizzaOrderController::class, 'update'])->middleware('ability:Admin,Employee');
-
-        Route::delete('/{id}', [PizzaOrderController::class, 'destroy'])->middleware('ability:Admin');
     });
 });
