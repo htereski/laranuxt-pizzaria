@@ -63,4 +63,17 @@ class PizzaOrderController extends Controller
 
         return response()->json(['message' => 'Pizza Order not founded'], 400);
     }
+
+    public function destroy($id)
+    {
+        $pizzaOrder = PizzaOrder::find($id);
+
+        if ($pizzaOrder) {
+            $pizzaOrder->delete();
+
+            return response()->json(['message' => 'Pizza Order Deleted'], 200);
+        }
+
+        return response()->json(['message' => 'Pizza Order not founded'], 400);
+    }
 }
