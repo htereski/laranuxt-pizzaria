@@ -10,7 +10,7 @@ class PizzaOrderController extends Controller
 {
     public function index()
     {
-        $data = PizzaOrder::with('pizza', 'size', 'user')->get();
+        $data = PizzaOrder::all();
 
         $pizzaOrders = new PizzaOrderCollection($data);
         

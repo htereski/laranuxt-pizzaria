@@ -22,18 +22,18 @@ class PizzaOrderCollection extends ResourceCollection
                 $i => [
                     'id' => $item->id,
                     'value' => $item->value,
-                    'pizza' => [
-                        'id' => $item->pizza->id,
-                        'name' => $item->pizza->name,
-                    ],
-                    'size' => [
-                        'id' => $item->size->id,
-                        'name' => $item->size->name
-                    ],
-                    'user' => [
-                        'id' => $item->user->id,
-                        'name' => $item->user->name,
-                    ]
+                    // 'pizza' => [
+                    //     'id' => $item->pizza->id,
+                    //     'name' => $item->pizza->name,
+                    // ],
+                    // 'size' => [
+                    //     'id' => $item->size->id,
+                    //     'name' => $item->size->name
+                    // ],
+                    // 'user' => [
+                    //     'id' => $item->user->id,
+                    //     'name' => $item->user->name,
+                    // ]
                 ]
             ];
             $i++;
