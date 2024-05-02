@@ -22,10 +22,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('/pizzas')->group(function () {
         Route::get('/category/{id}', [PizzaController::class, 'index']);
         Route::get('/{id}', [PizzaController::class, 'show']);
-        Route::post('/create', [PizzaController::class, 'store'])->middleware('ability:Admin,Employee');
+        Route::post('/', [PizzaController::class, 'store'])->middleware('ability:Admin,Employee');
 
         Route::middleware('ability:Admin')->group(function () {
-            Route::put('/update/{id}', [PizzaController::class, 'update']);
+            Route::put('/{id}', [PizzaController::class, 'update']);
             Route::delete('/{id}', [PizzaController::class, 'destroy']);
         });
     });
