@@ -12,6 +12,7 @@ class PizzaOrder extends Model
     protected $fillable = [
         'pizza_id',
         'size_id',
+        'user_id',
         'value'
     ];
 
@@ -23,5 +24,10 @@ class PizzaOrder extends Model
     public function size()
     {
         return $this->belongsTo(Size::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
