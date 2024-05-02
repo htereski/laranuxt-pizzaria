@@ -11,7 +11,7 @@ class PizzaController extends Controller
 {
     public function index($id)
     {
-        $data = Pizza::with('kind')->get();
+        $data = Pizza::where('kind_id', $id)->with('kind')->get();
 
         $pizzas = new PizzaResourceCollection($data);
 
