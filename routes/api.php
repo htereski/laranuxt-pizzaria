@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{id}', [PizzaController::class, 'show']);
         Route::post('/create', [PizzaController::class, 'store'])->middleware('ability:Admin,Employee');
 
-        Route::middleware('ability:Admin')->group(function() {
+        Route::middleware('ability:Admin')->group(function () {
             Route::put('/update/{id}', [PizzaController::class, 'update']);
             Route::delete('/{id}', [PizzaController::class, 'destroy']);
         });

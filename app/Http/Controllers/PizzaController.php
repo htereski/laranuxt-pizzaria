@@ -6,9 +6,6 @@ use App\Http\Requests\PizzaRequest;
 use App\Http\Resources\PizzaResource;
 use App\Http\Resources\PizzaResourceCollection;
 use App\Models\Pizza;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class PizzaController extends Controller
 {
