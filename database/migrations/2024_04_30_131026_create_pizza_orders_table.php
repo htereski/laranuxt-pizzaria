@@ -14,8 +14,10 @@ return new class extends Migration
             $table->decimal('value', 5, 2);
             $table->unsignedBigInteger('pizza_id');
             $table->unsignedBigInteger('size_id');
+            $table->unsignedBigInteger('user_id');
             $table->foreign('pizza_id')->references('id')->on('pizzas');
             $table->foreign('size_id')->references('id')->on('sizes');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
