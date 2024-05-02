@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\KindRequest;
 use App\Http\Resources\KindResourceCollection;
 use App\Models\Kind;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class KindController extends Controller
 {
@@ -17,16 +15,9 @@ class KindController extends Controller
         return response()->json(['data' => $kinds], 200);
     }
 
-    public function store(Request $request)
+    public function store(KindRequest $request)
     {
-        $validator = Validator::make($request->only(['name', 'multiplier']), [
-            'name' => ['required', 'max:255', Rule::unique('kinds')],
-            'multiplier' => ['required', 'numeric', 'min:1']
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['message' => 'Data invalid', 'errors' => $validator->errors()], 400);
-        }
+        $request->validated();
 
         $kind = new Kind();
         $kind->name = $request->name;
@@ -36,16 +27,9 @@ class KindController extends Controller
         return response()->json(['message' => 'Kind Created'], 201);
     }
 
-    public function update(Request $request, $id)
+    public function update(KindRequest $request, $id)
     {
-        $validator = Validator::make($request->only(['name', 'multiplier']), [
-            'name' => ['required', 'max:255', Rule::unique('kinds')->ignore($id)],
-            'multiplier' => ['required', 'numeric', 'min:1']
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['message' => 'Data invalid', 'errors' => $validator->errors()], 400);
-        }
+        $request->validated();
 
         $kind = Kind::find($id);
 
