@@ -47,6 +47,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::middleware('ability:Admin')->group(function () {
             Route::put('/{id}', [SizeController::class, 'update']);
+            Route::delete('/{id}', [SizeController::class, 'destroy']);
         });
     });
 });

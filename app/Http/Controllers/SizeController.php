@@ -75,4 +75,17 @@ class SizeController extends Controller
 
         return response()->json(['message' => 'Size not founded'], 400);
     }
+
+    public function destroy($id)
+    {
+        $size = Size::find($id);
+
+        if ($size) {
+            $size->delete();
+
+            return response()->json(['message' => 'Size deleted'], 200);
+        }
+
+        return response()->json(['message' => 'Size not founded'], 400);
+    }
 }
