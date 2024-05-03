@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EmailVerifiedMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -18,15 +19,16 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'abilities' => CheckAbilities::class,
-            'ability' => CheckForAnyAbility::class
+            'ability' => CheckForAnyAbility::class,
+            'email' => EmailVerifiedMiddleware::class
         ]);
-        $middleware->redirectTo('/login');
+        $middleware->redirectTo('/api/login');
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (Exception $e, Request $request) {
 
             if ($e instanceof AccessDeniedHttpException) {
-                return redirect('/home');
+                return redirect('/api/home');
             }
         });
     })->create();

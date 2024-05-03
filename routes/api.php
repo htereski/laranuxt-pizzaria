@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KindController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\PizzaController;
 use App\Http\Controllers\PizzaOrderController;
 use App\Http\Controllers\SizeController;
@@ -14,10 +15,17 @@ use Illuminate\Support\Facades\Route;
 //     return 'ping';
 // });
 
+Route::get('/email/verify', [MailController::class, 'notice'])->middleware('auth:sanctum')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', [MailController::class, 'verify'])->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', [MailController::class, 'send'])->middleware(['auth:sanctum', 'throttle:6,1'])->name('verification.send');
+
+
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'email'])->group(function () {
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/home', [KindController::class, 'index']);
 

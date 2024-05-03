@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,6 +20,12 @@ class AuthController extends Controller
         $role = Role::find($user->role_id);
 
         $token = $user->createToken('login', [$role->name])->plainTextToken;
+
+        if (!$user->hasVerifiedEmail()) {
+            event(new Registered($user));
+            
+            return response()->json(['message' => 'Email not verified', 'redirect_to' => route('verification.notice')], 403, ['token' => $token]);
+        }
 
         return response()->json(['message' => 'Authorized'], 200, ['token' => $token]);
     }
