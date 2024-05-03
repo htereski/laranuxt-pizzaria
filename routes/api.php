@@ -78,5 +78,6 @@ Route::middleware(['auth:sanctum', 'email'])->group(function () {
 
     Route::prefix('/admin')->middleware('ability:Admin')->group(function () {
         Route::get('/employees', [AdminController::class, 'employees']);
+        Route::get('/employees/{id}', [AdminController::class, 'employee']);
     });
 });
