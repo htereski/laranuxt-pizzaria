@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use App\Models\PizzaOrder;
 use App\Models\Role;
-use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +31,7 @@ class PizzaOrderMiddleware
         }
 
         if (Auth::user()->id !== $order->user_id) {
-            return redirect('/home');
+            return response()->json(['redirect_to' => route('home')]);
         }
 
         return $next($request);

@@ -23,11 +23,11 @@ Route::post('/email/verification-notification', [MailController::class, 'send'])
 
 
 Route::post('/register', [UserController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::middleware(['auth:sanctum', 'email'])->group(function () {
     Route::get('/logout', [AuthController::class, 'logout']);
-    Route::get('/home', [KindController::class, 'index']);
+    Route::get('/home', [KindController::class, 'index'])->name('home');
 
     Route::prefix('/pizzas')->group(function () {
         Route::get('/category/{id}', [PizzaController::class, 'index']);
