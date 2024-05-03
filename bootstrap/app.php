@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\MailException;
 use App\Http\Middleware\EmailVerifiedMiddleware;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
@@ -31,13 +32,17 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($e instanceof AccessDeniedHttpException) {
                 return response()->json(['redirect_to' => route('home')], 403);
             }
-            
+
             if ($e instanceof AuthenticationException) {
                 return response()->json(['redirect_to' => route('login')], 302);
             }
 
             if ($e instanceof MissingAbilityException) {
                 return response()->json(['redirect_to' => route('login')], 403);
+            }
+
+            if ($e instanceof MailException) {
+                return response()->json(['redirect_to' => route('verification.notice')], 403);
             }
         });
     })->create();

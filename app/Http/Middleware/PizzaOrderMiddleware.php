@@ -8,6 +8,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class PizzaOrderMiddleware
 {
@@ -31,7 +32,7 @@ class PizzaOrderMiddleware
         }
 
         if (Auth::user()->id !== $order->user_id) {
-            return response()->json(['redirect_to' => route('home')]);
+            throw new AccessDeniedHttpException();
         }
 
         return $next($request);

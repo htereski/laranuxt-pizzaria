@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\MailException;
 use Closure;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class EmailVerifiedMiddleware
             $request->user() instanceof MustVerifyEmail &&
             !$request->user()->hasVerifiedEmail()
         ) {
-            return redirect('/api/email/verify');
+            throw new MailException();
         }
 
         return $next($request);
