@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KindController;
 use App\Http\Controllers\MailController;
@@ -73,5 +74,9 @@ Route::middleware(['auth:sanctum', 'email'])->group(function () {
         });
 
         Route::post('/', [PizzaOrderController::class, 'store']);
+    });
+
+    Route::prefix('/admin')->middleware('ability:Admin')->group(function () {
+        Route::get('/employees', [AdminController::class, 'employees']);
     });
 });
