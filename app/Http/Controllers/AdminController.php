@@ -53,4 +53,23 @@ class AdminController extends Controller
 
         return response()->json(['message' => 'Employee created'], 200);
     }
+
+    public function updateEmployee(UserRequest $request, $id)
+    {
+        $request->validated();
+
+        $role = Role::where('name', 'Employee')->first();
+
+        $data = User::where('id', $id)->where('role_id', $role->id)->first();
+
+        if ($data) {
+            $data->name = $request->name;
+            $data->email = $request->email;
+            $data->save();
+
+            return response()->json(['message' => 'Employee updated'], 200);
+        }
+
+        return response()->json(['message' => 'Employee not founded'], 400);
+    }
 }

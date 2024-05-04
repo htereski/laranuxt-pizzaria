@@ -80,5 +80,6 @@ Route::middleware(['auth:sanctum', 'email'])->group(function () {
         Route::get('/employees', [AdminController::class, 'employees']);
         Route::get('/employees/{id}', [AdminController::class, 'employee']);
         Route::post('/employees', [AdminController::class, 'registerEmployee']);
+        Route::put('/employees/{id}', [AdminController::class, 'updateEmployee']);
     });
 });
