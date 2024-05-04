@@ -72,4 +72,19 @@ class AdminController extends Controller
 
         return response()->json(['message' => 'Employee not founded'], 400);
     }
+
+    public function destroyEmployee($id)
+    {
+        $role = Role::where('name', 'Employee')->first();
+
+        $data = User::where('id', $id)->where('role_id', $role->id)->first();
+
+        if ($data) {
+            $data->delete();
+
+            return response()->json(['message' => 'Employee deleted'], 200);
+        }
+
+        return response()->json(['message' => 'Employee not founded'], 400);
+    }
 }
