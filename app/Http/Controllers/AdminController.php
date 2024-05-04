@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserResourceCollection;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -34,5 +36,21 @@ class AdminController extends Controller
         }
 
         return response()->json(['message' => 'Employee not founded'], 200);
+    }
+
+    public function registerEmployee(UserRequest $request)
+    {
+        $request->validated();
+
+        $role = Role::where('name', 'Employee')->first();
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->role()->associate($role);
+        $user->save();
+
+        return response()->json(['message' => 'Employee created'], 200);
     }
 }
