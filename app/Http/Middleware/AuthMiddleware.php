@@ -3,32 +3,36 @@
 namespace App\Http\Middleware;
 
 use App\Custom\Jwt;
-use App\Exceptions\MailException;
 use App\Models\User;
 use Closure;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EmailVerifiedMiddleware
+class AuthMiddleware
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
+
     public function handle(Request $request, Closure $next): Response
     {
-        $response = Jwt::decode();
-
-        $user = User::where('email', $response->data->email)->first();
-
-        if (
-            $user instanceof MustVerifyEmail &&
-            !$user->hasVerifiedEmail()
-        ) {
-            throw new MailException();
+        if (!Jwt::validate()) {
+            return response()->json('Token invalid', 401);
         }
+
+        $decodedToken = Jwt::decode();
+
+        $user = User::where('email', $decodedToken->data->email)->first();
+
+        if (!$user) {
+            return response()->json('User not found', 401);
+        }
+
+        $request->setUserResolver(function () use ($user) {
+            return $user;
+        });
 
         return $next($request);
     }

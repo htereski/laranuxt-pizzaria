@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,9 @@ class MailController extends Controller
 
     public function verify(EmailVerificationRequest $request)
     {
-        if ($request->user()->hasVerifiedEmail()) {
+        $user = User::find($request->id);
+
+        if ($user->hasVerifiedEmail()) {
             return response()->json(['message' => 'Email already verified'], 200);
         }
 

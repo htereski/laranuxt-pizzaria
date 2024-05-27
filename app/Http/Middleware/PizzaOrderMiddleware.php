@@ -2,11 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Custom\Jwt;
 use App\Models\PizzaOrder;
-use App\Models\Role;
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -19,19 +19,21 @@ class PizzaOrderMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $order = PizzaOrder::find($request->id);
+        $order = PizzaOrder::find($request->route('id'));
 
         if (!$order) {
             return response()->json(['message' => 'Pizza Order not founded'], 400);
         }
 
-        $role = Role::where('name', 'Custumer')->first();
+        $response = Jwt::decode();
 
-        if (Auth::user()->role_id !== $role->id) {
+        $user = User::where('email', $response->data->email)->first();
+
+        if ($user->role->name === 'Admin' || $user->role->name === 'Employee' || $user->id === $order->user_id) {
             return $next($request);
         }
 
-        if (Auth::user()->id !== $order->user_id) {
+        if ($user->id !== $order->user->id) {
             throw new AccessDeniedHttpException();
         }
 

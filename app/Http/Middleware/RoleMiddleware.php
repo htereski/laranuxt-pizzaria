@@ -3,31 +3,27 @@
 namespace App\Http\Middleware;
 
 use App\Custom\Jwt;
-use App\Exceptions\MailException;
+use App\Models\Role;
 use App\Models\User;
 use Closure;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EmailVerifiedMiddleware
+class RoleMiddleware
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, ...$allowedRoles): Response
     {
         $response = Jwt::decode();
 
         $user = User::where('email', $response->data->email)->first();
 
-        if (
-            $user instanceof MustVerifyEmail &&
-            !$user->hasVerifiedEmail()
-        ) {
-            throw new MailException();
+        if (!$user || !in_array($user->role->name, $allowedRoles)) {
+            return response()->json('Unauthorized', 401);
         }
 
         return $next($request);
