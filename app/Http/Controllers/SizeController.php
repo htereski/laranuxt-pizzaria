@@ -13,6 +13,10 @@ class SizeController extends Controller
     {
         $data = Size::all();
 
+        if (!$data) {
+            return response()->json(['message' => 'Size not founded'], 400);
+        }
+
         $sizes = new SizeResourceCollection($data);
 
         return response()->json(['data' => $sizes], 200);

@@ -10,9 +10,15 @@ class KindController extends Controller
 {
     public function index()
     {
-        $kinds = new KindResourceCollection(Kind::all());
+        $data = Kind::paginate(5);
 
-        return response()->json(['data' => $kinds], 200);
+        if (!$data->items()) {
+            return response()->json(['message' => 'Kind not founded'], 400);
+        }
+
+        $kinds = new KindResourceCollection($data);
+
+        return response()->json($kinds, 200);
     }
 
     public function store(KindRequest $request)

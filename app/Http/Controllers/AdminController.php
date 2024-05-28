@@ -7,7 +7,6 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\UserResourceCollection;
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
@@ -16,16 +15,28 @@ class AdminController extends Controller
     {
         $role = Role::where('name', 'Employee')->first();
 
-        $data = User::where('role_id', $role->id)->get();
+        if (!$role) {
+            return response()->json(['message' => 'Role not found'], 404);
+        }
+
+        $data = User::where('role_id', $role->id)->paginate(5);
+
+        if (!$data->items()) {
+            return response()->json(['message' => 'Employees not founded'], 400);
+        }
 
         $employees = new UserResourceCollection($data);
 
-        return response()->json(['data' => $employees], 200);
+        return response()->json($employees, 200);
     }
 
     public function employee($id)
     {
         $role = Role::where('name', 'Employee')->first();
+
+        if (!$role) {
+            return response()->json(['message' => 'Role not found'], 404);
+        }
 
         $data = User::where('id', $id)->where('role_id', $role->id)->first();
 
@@ -35,7 +46,7 @@ class AdminController extends Controller
             return response()->json(['data' => $employee], 200);
         }
 
-        return response()->json(['message' => 'Employee not founded'], 200);
+        return response()->json(['message' => 'Employee not founded'], 400);
     }
 
     public function registerEmployee(UserRequest $request)
@@ -43,6 +54,10 @@ class AdminController extends Controller
         $request->validated();
 
         $role = Role::where('name', 'Employee')->first();
+
+        if (!$role) {
+            return response()->json(['message' => 'Role not found'], 404);
+        }
 
         $user = new User();
         $user->name = $request->name;
@@ -59,6 +74,10 @@ class AdminController extends Controller
         $request->validated();
 
         $role = Role::where('name', 'Employee')->first();
+
+        if (!$role) {
+            return response()->json(['message' => 'Role not found'], 404);
+        }
 
         $data = User::where('id', $id)->where('role_id', $role->id)->first();
 

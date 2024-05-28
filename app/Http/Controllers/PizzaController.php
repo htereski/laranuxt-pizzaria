@@ -11,11 +11,15 @@ class PizzaController extends Controller
 {
     public function index($id)
     {
-        $data = Pizza::where('kind_id', $id)->with('kind')->get();
+        $data = Pizza::where('kind_id', $id)->with('kind')->paginate(5);
+
+        if (!$data->items()) {
+            return response()->json(['message' => 'Pizza not founded'], 400);
+        }
 
         $pizzas = new PizzaResourceCollection($data);
 
-        return response()->json(['data' => $pizzas], 200);
+        return response()->json($pizzas, 200);
     }
 
     public function show($id)

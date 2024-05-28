@@ -16,29 +16,38 @@ class PizzaOrderResourceCollection extends ResourceCollection
     {
         $items = [];
 
-        $i = 0;
         foreach ($this->resource as $item) {
-            $items += [
-                $i => [
-                    'id' => $item->id,
-                    'value' => $item->value,
-                    // 'pizza' => [
-                    //     'id' => $item->pizza->id,
-                    //     'name' => $item->pizza->name,
-                    // ],
-                    // 'size' => [
-                    //     'id' => $item->size->id,
-                    //     'name' => $item->size->name
-                    // ],
-                    // 'user' => [
-                    //     'id' => $item->user->id,
-                    //     'name' => $item->user->name,
-                    // ]
+            $items[] = [
+                'id' => $item->id,
+                'value' => $item->value,
+                'pizza' => [
+                    'id' => $item->pizza->id,
+                    'name' => $item->pizza->name,
+                ],
+                'size' => [
+                    'id' => $item->size->id,
+                    'name' => $item->size->name
+                ],
+                'user' => [
+                    'id' => $item->user->id,
+                    'name' => $item->user->name,
                 ]
             ];
-            $i++;
         }
 
-        return $items;
+        return [
+            'data' => $items,
+            'pagination' => [
+                'total' => $this->total(),
+                'count' => $this->count(),
+                'per_page' => $this->perPage(),
+                'current_page' => $this->currentPage(),
+                'total_pages' => $this->lastPage(),
+                'links' => [
+                    'next' => $this->nextPageUrl(),
+                    'previous' => $this->previousPageUrl(),
+                ],
+            ],
+        ];
     }
 }

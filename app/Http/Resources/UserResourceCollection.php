@@ -3,9 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class UserResourceCollection extends JsonResource
+class UserResourceCollection extends ResourceCollection
 {
     /**
      * Transform the resource into an array.
@@ -16,18 +16,27 @@ class UserResourceCollection extends JsonResource
     {
         $items = [];
 
-        $i = 0;
-        foreach ($this->resource as $item) {
-            $items += [
-                $i => [
-                    'id' => $item->id,
-                    'name' => $item->name,
-                    'email' => $item->email
-                ]
+        foreach ($this->collection as $item) {
+            $items[] = [
+                'id' => $item->id,
+                'name' => $item->name,
+                'email' => $item->email
             ];
-            $i++;
         }
 
-        return $items;
+        return [
+            'data' => $items,
+            'pagination' => [
+                'total' => $this->total(),
+                'count' => $this->count(),
+                'per_page' => $this->perPage(),
+                'current_page' => $this->currentPage(),
+                'total_pages' => $this->lastPage(),
+                'links' => [
+                    'next' => $this->nextPageUrl(),
+                    'previous' => $this->previousPageUrl(),
+                ],
+            ],
+        ];
     }
 }

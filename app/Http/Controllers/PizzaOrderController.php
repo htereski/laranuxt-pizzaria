@@ -11,11 +11,15 @@ class PizzaOrderController extends Controller
 {
     public function index()
     {
-        $data = PizzaOrder::all();
+        $data = PizzaOrder::paginate(5);
+
+        if (!$data->items()) {
+            return response()->json(['message' => 'PizzaOrder not founded'], 400);
+        }
 
         $pizzaOrders = new PizzaOrderResourceCollection($data);
 
-        return response()->json(['data' => $pizzaOrders]);
+        return response()->json($pizzaOrders, 200);
     }
 
     public function show($id)

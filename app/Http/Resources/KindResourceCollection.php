@@ -3,9 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class KindResourceCollection extends JsonResource
+class KindResourceCollection extends ResourceCollection
 {
     /**
      * Transform the resource into an array.
@@ -14,20 +14,28 @@ class KindResourceCollection extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
         $items = [];
 
-        $i = 0;
-        foreach ($this->resource as $item) {
-            $items += [
-                $i => [
-                    'id' => $item->id,
-                    'name' => $item->name,
-                ]
+        foreach ($this->collection as $item) {
+            $items[] = [
+                'id' => $item->id,
+                'name' => $item->name,
             ];
-            $i++;
         }
 
-        return $items;
+        return [
+            'data' => $items,
+            'pagination' => [
+                'total' => $this->total(),
+                'count' => $this->count(),
+                'per_page' => $this->perPage(),
+                'current_page' => $this->currentPage(),
+                'total_pages' => $this->lastPage(),
+                'links' => [
+                    'next' => $this->nextPageUrl(),
+                    'previous' => $this->previousPageUrl(),
+                ],
+            ],
+        ];
     }
 }
