@@ -25,8 +25,11 @@ class PizzaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255', Rule::unique('pizzas')->ignore($this->id)],
-            'kind_id' => ['required', 'exists:kinds,id'],
+            'name' => ['required', 'string', 'max:255', Rule::unique('products')->ignore($this->id)],
+            'price' => ['required', 'numeric'],
+            'type' => ['required', Rule::in(['Pizza'])],
+            'size' => ['required', Rule::in(['Small', 'Medium', 'Big'])],
+            'category' => ['required', Rule::in(['Clássica', 'Vegetariana', 'Gourmet', 'Especial', 'Doce'])],
         ];
     }
 

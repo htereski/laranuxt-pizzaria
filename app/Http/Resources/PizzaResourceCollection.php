@@ -20,10 +20,10 @@ class PizzaResourceCollection extends ResourceCollection
             $items[] = [
                 'id' => $item->id,
                 'name' => $item->name,
-                'kind' => [
-                    'id' => $item->kind->id,
-                    'name' => $item->kind->name
-                ]
+                'price' => $item->price,
+                'type' => $item->type,
+                'size' => $item->size,
+                'category' => $item->category
             ];
         }
 

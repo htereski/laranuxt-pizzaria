@@ -17,6 +17,10 @@ class MailController extends Controller
     {
         $user = User::find($request->id);
 
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
         if ($user->hasVerifiedEmail()) {
             return response()->json(['message' => 'Email already verified'], 200);
         }

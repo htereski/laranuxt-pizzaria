@@ -15,6 +15,10 @@ class UserController extends Controller
 
         $role = Role::where('name', 'Custumer')->first();
 
+        if (!$role) {
+            return response()->json(['message' => 'Role not found'], 404);
+        }
+
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -22,6 +26,6 @@ class UserController extends Controller
         $user->role()->associate($role);
         $user->save();
 
-        return response()->json(['message' => 'User created'], 200);
+        return response()->json(['message' => 'User created'], 201);
     }
 }

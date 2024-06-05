@@ -5,8 +5,9 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
-class PizzaOrderRequest extends FormRequest
+class ProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +25,10 @@ class PizzaOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'value' => ['required', 'numeric', 'min:1'],
-            'pizza_id' => ['required', 'numeric', 'exists:pizzas,id'],
-            'size_id' => ['required', 'numeric', 'exists:sizes,id'],
-            'user_id' => ['required', 'numeric', 'exists:users,id'],
+            'name' => ['required', 'string', 'max:255', Rule::unique('products')->ignore($this->id)],
+            'price' => ['required', 'numeric'],
+            'type' => ['required', Rule::in(['Drink', 'Food'])],
+            'stock' => ['required', 'numeric']
         ];
     }
 

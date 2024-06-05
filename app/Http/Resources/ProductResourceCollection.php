@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class PizzaOrderResourceCollection extends ResourceCollection
+class ProductResourceCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -16,22 +16,13 @@ class PizzaOrderResourceCollection extends ResourceCollection
     {
         $items = [];
 
-        foreach ($this->resource as $item) {
+        foreach ($this->collection as $item) {
             $items[] = [
                 'id' => $item->id,
-                'value' => $item->value,
-                'pizza' => [
-                    'id' => $item->pizza->id,
-                    'name' => $item->pizza->name,
-                ],
-                'size' => [
-                    'id' => $item->size->id,
-                    'name' => $item->size->name
-                ],
-                'user' => [
-                    'id' => $item->user->id,
-                    'name' => $item->user->name,
-                ]
+                'name' => $item->name,
+                'price' => $item->price,
+                'type' => $item->type,
+                'stock' => $item->stock,
             ];
         }
 

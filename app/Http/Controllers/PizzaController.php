@@ -5,74 +5,88 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PizzaRequest;
 use App\Http\Resources\PizzaResource;
 use App\Http\Resources\PizzaResourceCollection;
-use App\Models\Pizza;
+use App\Models\Product;
 
 class PizzaController extends Controller
 {
-    public function index($id)
+    public function home()
     {
-        $data = Pizza::where('kind_id', $id)->with('kind')->paginate(5);
+        $pizza = Product::where('type', 'Pizza')->paginate(5);
 
-        if (!$data->items()) {
-            return response()->json(['message' => 'Pizza not founded'], 400);
-        }
+        $data = new PizzaResourceCollection($pizza);
 
-        $pizzas = new PizzaResourceCollection($data);
-
-        return response()->json($pizzas, 200);
+        return response()->json($data, 200);
     }
 
-    public function show($id)
+    public function index()
     {
-        $data = Pizza::find($id);
+        $pizza = Product::where('type', 'Pizza')->paginate(5);
 
-        if ($data) {
-            $pizza = new PizzaResource($data);
-            return response()->json(['data' => $pizza], 200);
-        }
+        $data = new PizzaResourceCollection($pizza);
 
-        return response()->json(['message' => 'Pizza not founded'], 400);
+        return response()->json($data, 200);
     }
 
     public function store(PizzaRequest $request)
     {
         $request->validated();
 
-        $pizza = new Pizza();
+        $pizza = new Product();
         $pizza->name = $request->name;
-        $pizza->kind_id = $request->kind_id;
+        $pizza->pizza = $request->name . ' ' . $request->size;
+        $pizza->price = $request->price;
+        $pizza->type = $request->type;
+        $pizza->size = $request->size;
+        $pizza->category = $request->category;
         $pizza->save();
 
-        return response()->json(['message' => 'Pizza Created'], 201);
+        return response()->json(['message' => 'Pizza created'], 201);
+    }
+
+    public function show($id)
+    {
+        $pizza = Product::find($id);
+
+        if (!$pizza || $pizza->type != 'Pizza') {
+            return response()->json(['message' => 'Pizza not found'], 404);
+        }
+
+        $data = new PizzaResource($pizza);
+
+        return response()->json($data, 200);
     }
 
     public function update(PizzaRequest $request, $id)
     {
-        $data = Pizza::find($id);
+        $pizza = Product::find($id);
 
-        if ($data) {
-            $request->validated();
-
-            $data->name = $request->name;
-            $data->kind_id = $request->kind_id;
-            $data->save();
-
-            return response()->json(['message' => 'Pizza Updated'], 200);
+        if (!$pizza || $pizza->type != 'Pizza') {
+            return response()->json(['message' => 'Pizza not found'], 404);
         }
 
-        return response()->json(['message' => 'Pizza not founded'], 400);
+        $request->validated();
+
+        $pizza->name = $request->name;
+        $pizza->pizza = $request->name . ' ' . $request->size;
+        $pizza->price = $request->price;
+        $pizza->type = $request->type;
+        $pizza->size = $request->size;
+        $pizza->category = $request->category;
+        $pizza->save();
+
+        return response()->json(['message' => 'Pizza updated'], 200);
     }
 
     public function destroy($id)
     {
-        $pizza = Pizza::find($id);
+        $pizza = Product::find($id);
 
-        if ($pizza) {
-            $pizza->delete();
-
-            return response()->json(['message' => 'Pizza Deleted'], 200);
+        if (!$pizza || $pizza->type !== 'Pizza') {
+            return response()->json(['message' => 'Pizza not found'], 404);
         }
 
-        return response()->json(['message' => 'Pizza not founded'], 400);
+        $pizza->delete();
+
+        return response()->json(null, 204);
     }
 }

@@ -5,17 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Kind extends Model
+class Product extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'multiplier'
+        'price',
+        'type',
+        'size',
+        'category',
+        'stock'
     ];
-
-    public function pizzas()
-    {
-        return $this->hasMany(Pizza::class);
-    }
 }

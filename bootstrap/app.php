@@ -30,19 +30,19 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (Exception $e, Request $request) {
 
             if ($e instanceof AccessDeniedHttpException) {
-                return response()->json('', 403, ['Location' => route('home')]);
+                return response()->json(['error' => 'Access Denied'], 403, ['Location' => route('home')]);
             }
 
             if ($e instanceof AuthenticationException) {
-                return response()->json('', 302, ['Location' => route('login')]);
+                return response()->json(['error' => 'Authentication Required'], 302, ['Location' => route('login')]);
             }
 
             if ($e instanceof MissingAbilityException) {
-                return response()->json('', 403, ['Location' => route('login')]);
+                return response()->json(['error' => 'Missing Ability'], 403, ['Location' => route('login')]);
             }
 
             if ($e instanceof MailException) {
-                return response()->json('', 403, ['Location' => route('verification.notice')]);
+                return response()->json(['error' => 'Mail Error'], 403, ['Location' => route('verification.notice')]);
             }
         });
     })->create();

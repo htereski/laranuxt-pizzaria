@@ -14,15 +14,14 @@ class PizzaResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
         return [
-            'pizza' => [
-                'id' => $this->id,
-                'name' => $this->name,
-            ],
-            'kind' => [
-                'id' => $this->kind->id,
-                'name' => $this->kind->name
-            ]
+            'id' => $this->id,
+            'name' => $this->name,
+            'price' => $this->price,
+            'type' => $this->type,
+            'size' => $this->size,
+            'category' => $this->category
         ];
     }
 }

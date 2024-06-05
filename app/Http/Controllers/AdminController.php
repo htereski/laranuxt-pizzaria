@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function employees()
+    public function index()
     {
         $role = Role::where('name', 'Employee')->first();
 
@@ -22,7 +22,7 @@ class AdminController extends Controller
         $data = User::where('role_id', $role->id)->paginate(5);
 
         if (!$data->items()) {
-            return response()->json(['message' => 'Employees not founded'], 400);
+            return response()->json(['message' => 'Employees not founded'], 404);
         }
 
         $employees = new UserResourceCollection($data);
@@ -30,7 +30,7 @@ class AdminController extends Controller
         return response()->json($employees, 200);
     }
 
-    public function employee($id)
+    public function show($id)
     {
         $role = Role::where('name', 'Employee')->first();
 
@@ -46,10 +46,10 @@ class AdminController extends Controller
             return response()->json(['data' => $employee], 200);
         }
 
-        return response()->json(['message' => 'Employee not founded'], 400);
+        return response()->json(['message' => 'Employee not founded'], 404);
     }
 
-    public function registerEmployee(UserRequest $request)
+    public function store(UserRequest $request)
     {
         $request->validated();
 
@@ -66,10 +66,10 @@ class AdminController extends Controller
         $user->role()->associate($role);
         $user->save();
 
-        return response()->json(['message' => 'Employee created'], 200);
+        return response()->json(['message' => 'Employee created'], 201);
     }
 
-    public function updateEmployee(UserRequest $request, $id)
+    public function update(UserRequest $request, $id)
     {
         $request->validated();
 
@@ -89,21 +89,25 @@ class AdminController extends Controller
             return response()->json(['message' => 'Employee updated'], 200);
         }
 
-        return response()->json(['message' => 'Employee not founded'], 400);
+        return response()->json(['message' => 'Employee not founded'], 404);
     }
 
-    public function destroyEmployee($id)
+    public function destroy($id)
     {
         $role = Role::where('name', 'Employee')->first();
+
+        if (!$role) {
+            return response()->json(['message' => 'Role not found'], 404);
+        }
 
         $data = User::where('id', $id)->where('role_id', $role->id)->first();
 
         if ($data) {
             $data->delete();
 
-            return response()->json(['message' => 'Employee deleted'], 200);
+            return response()->json(null, 204);
         }
 
-        return response()->json(['message' => 'Employee not founded'], 400);
+        return response()->json(['message' => 'Employee not founded'], 404);
     }
 }
