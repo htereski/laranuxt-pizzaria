@@ -14,10 +14,11 @@ class DatabaseSeeder extends Seeder
         $this->call(
             [
                 RoleSeeder::class,
+                PizzaSeeder::class,
                 ProductSeeder::class
             ]
         );
 
-        User::factory(10)->create();
+        User::factory()->count(10)->create();
     }
 }

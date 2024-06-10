@@ -44,5 +44,9 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($e instanceof MailException) {
                 return response()->json(['error' => 'Mail Error'], 403, ['Location' => route('verification.notice')]);
             }
+
+            if ($e instanceof Exception) {
+                return response()->json(['error' => 'Not Found'], 404, ['Location' => route('login')]);
+            }
         });
     })->create();

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Custom\Jwt;
-use App\Models\Role;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,12 +17,12 @@ class AuthController extends Controller
 
         $user = $request->user();
 
+        $token = Jwt::create($user);
+
         if (!$user->hasVerifiedEmail()) {
             event(new Registered($user));
-            return response()->json(['message' => 'Email not verified'], 403);
+            return response()->json(['message' => 'Email not verified'], 403, ['Authorization' => $token]);
         }
-
-        $token = Jwt::create($user);
 
         return response()->json(['message' => 'Authorized'], 200, ['Authorization' => $token]);
     }

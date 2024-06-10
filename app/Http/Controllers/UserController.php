@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Models\Cart;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -14,7 +15,7 @@ class UserController extends Controller
         $request->validated();
 
         $role = Role::where('name', 'Custumer')->first();
-
+        
         if (!$role) {
             return response()->json(['message' => 'Role not found'], 404);
         }
@@ -25,6 +26,11 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->role()->associate($role);
         $user->save();
+        
+        $cart = new Cart();
+        $cart->total = 0;
+        $cart->user()->associate($user);
+        $cart->save();
 
         return response()->json(['message' => 'User created'], 201);
     }

@@ -24,11 +24,12 @@ class ProductRequest extends FormRequest
      */
     public function rules(): array
     {
+        $productId = $this->route('product');
         return [
-            'name' => ['required', 'string', 'max:255', Rule::unique('products')->ignore($this->id)],
+            'name' => ['required', 'string', 'max:255', Rule::unique('products')->ignore($productId)],
             'price' => ['required', 'numeric'],
             'type' => ['required', Rule::in(['Drink', 'Food'])],
-            'stock' => ['required', 'numeric']
+            'stock' => ['required', 'numeric', 'min:0']
         ];
     }
 

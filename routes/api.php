@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\MPController;
 use App\Http\Controllers\PizzaController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -48,4 +50,16 @@ Route::middleware(['auth', 'email'])->group(function () {
             'create', 'edit'
         ]);
     });
+
+    Route::prefix('/cart')->group(function () {
+        Route::get('/index', [CartController::class, 'index']);
+        Route::get('/show/{id}', [CartController::class, 'show']);
+        Route::post('/create', [CartController::class, 'create']);
+        Route::delete('/delete/{id}', [CartController::class, 'delete']);
+        Route::post('/add', [CartController::class, 'add']);
+        Route::delete('/remove/{cart_id}/{product_id}', [CartController::class, 'remove']);
+        Route::get('/checkout/{cart_id}', [MPController::class, 'checkout']);
+    });
 });
+
+Route::post('/webhook', [MPController::class, 'handle']);

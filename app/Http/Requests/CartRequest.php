@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Product;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rule;
 
-class PizzaRequest extends FormRequest
+class CartRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,18 @@ class PizzaRequest extends FormRequest
      */
     public function rules(): array
     {
-        $pizzaId = $this->route('pizza');
+        $product = Product::find($this->product_id);
+
+        if ($product->type !== "Pizza") {
+            $value = $product->stock;
+        } else {
+            $value = 100;
+        }
+
         return [
-            'name' => ['required', 'string', 'max:255', Rule::unique('products')->ignore($pizzaId)],
-            'price' => ['required', 'numeric'],
-            'type' => ['required', Rule::in(['Pizza'])],
-            'size' => ['required', Rule::in(['Small', 'Medium', 'Big'])],
-            'category' => ['required', Rule::in(['Clássica', 'Vegetariana', 'Gourmet', 'Especial', 'Doce'])],
+            'product_id' => ['required', 'integer', 'exists:products,id'],
+            'quantity' => ['required', 'integer', 'min:1', "max:$value"],
+            'cart_id' => ['required', 'integer', 'exists:carts,id'],
         ];
     }
 

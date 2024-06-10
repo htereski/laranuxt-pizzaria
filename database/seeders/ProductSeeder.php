@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,28 +15,22 @@ class ProductSeeder extends Seeder
     {
         $data = [
             [
-                'name' => 'Margherita',
-                'pizza' => 'Margherita' . ' ' . 'Small',
-                'price' => 30.00,
-                'type' => 'Pizza',
-                'size' => 'Small',
-                'category' => 'Clássica',
+                'name' => 'Coca-Cola 2L',
+                'price' => 12.00,
+                'stock' => 20,
+                'type' => 'Drink',
             ],
             [
-                'name' => 'Margherita',
-                'pizza' => 'Margherita' . ' ' . 'Medium',
-                'price' => 40.00,
-                'type' => 'Pizza',
-                'size' => 'Medium',
-                'category' => 'Clássica',
+                'name' => 'Coca-Cola 3L',
+                'price' => 18.00,
+                'stock' => 20,
+                'type' => 'Drink',
             ],
             [
-                'name' => 'Margherita',
-                'pizza' => 'Margherita' . ' ' . 'Big',
-                'price' => 50.00,
-                'type' => 'Pizza',
-                'size' => 'Big',
-                'category' => 'Clássica',
+                'name' => 'Cine Framboesa 2L',
+                'price' => 10.00,
+                'stock' => 20,
+                'type' => 'Drink',
             ],
         ];
 
