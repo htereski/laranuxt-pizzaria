@@ -69,8 +69,8 @@ class CartController extends Controller
     {
         $user = $this->getUserFromToken();
 
-        if ($user->role->name !== 'Custumer') {
-            return response()->json(['message' => 'Only custumers can create a cart.'], 404);
+        if ($user->role->name !== 'Customer') {
+            return response()->json(['message' => 'Only customers can create a cart.'], 404);
         }
 
         $cart = new Cart();

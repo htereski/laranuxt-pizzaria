@@ -14,7 +14,7 @@ class UserController extends Controller
     {
         $request->validated();
 
-        $role = Role::where('name', 'Custumer')->first();
+        $role = Role::where('name', 'Customer')->first();
         
         if (!$role) {
             return response()->json(['message' => 'Role not found'], 404);
