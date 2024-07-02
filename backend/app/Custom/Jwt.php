@@ -11,7 +11,7 @@ class Jwt
 {
     public static function create(User $user)
     {
-        $key = $_ENV['KEY_JWT'];
+        $key = (string) env('KEY_JWT');
 
         $payload = [
             'iat' => time(),
@@ -19,7 +19,7 @@ class Jwt
             'data' => ['name' => $user->name, 'email' => $user->email]
         ];
 
-        $token = 'Bearer ' . JWTFirebase::encode($payload, $key, 'HS256');
+        $token = JWTFirebase::encode($payload, $key, 'HS256');
 
         return $token;
     }
@@ -29,7 +29,7 @@ class Jwt
         try {
             $authorization = $_SERVER['HTTP_AUTHORIZATION'];
 
-            $key = $_ENV['KEY_JWT'];
+            $key = (string) env('KEY_JWT');
 
             $token = str_replace('Bearer ', '', $authorization);
 
@@ -46,7 +46,7 @@ class Jwt
         try {
             $authorization = $_SERVER['HTTP_AUTHORIZATION'];
 
-            $key = $_ENV['KEY_JWT'];
+            $key = (string) env('KEY_JWT');
 
             $token = str_replace('Bearer ', '', $authorization);
 

@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    @apply tracking-[0.05rem];
+}
+
+@layer components {
+    .background {
+        @apply bg-[#000000];
+    }
+
+    .btn-primary {
+        @apply bg-[#E3170A] text-white px-3 py-2 text-sm w-full max-w-[500px] h-[60px] flex justify-center items-center text-[13px];
+    }
+
+    .btn-secondary {
+        @apply bg-[#3E000C] text-white px-3 py-2 text-sm w-full max-w-[500px] h-[60px] flex justify-center items-center text-[13px];
+    }
+
+    .btn-card-remove {
+        @apply bg-[#E3170A] text-white text-[16px] w-[177px] h-[40px] block text-center content-center;
+    }
+
+    .btn-card-edit {
+        @apply bg-[#3E000C] text-white text-[16px] w-[177px] h-[40px] block text-center content-center ;
+    }
+}

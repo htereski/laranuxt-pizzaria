@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use App\Custom\Jwt;
-use App\Models\Role;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;

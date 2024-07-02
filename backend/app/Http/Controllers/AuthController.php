@@ -24,7 +24,14 @@ class AuthController extends Controller
             return response()->json(['message' => 'Email not verified'], 403, ['Authorization' => $token]);
         }
 
-        return response()->json(['message' => 'Authorized'], 200, ['Authorization' => $token]);
+        // $cookie = cookie('laranuxt_session', $token, 60, null, null, true, true);
+
+        $data = [
+            'name' => $user->name,
+            'role' => $user->role->name
+        ];
+
+        return response()->json(['message' => 'Authorized', 'data' => $data, 'laranuxt_session' => $token], 200, ['Authorization' => $token]);
     }
 
     public function check()
