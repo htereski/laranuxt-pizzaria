@@ -1,8 +1,11 @@
 <template>
+  <Head>
+    <Title>Laranuxt</Title>
+  </Head>
   <Header :links="links" />
   <Banner />
   <Section title="Conheça" />
-  <wrapper-button color="bg-[#D9D9D9]">
+  <Wrapper-Button color="bg-[#D9D9D9]">
     <NuxtLink to="/login"
       ><Card>
         <p class="font-light text-center text-[36px] font">4 Queijos</p>
@@ -23,14 +26,14 @@
         <p class="font-light text-center text-[36px] font">4 Queijos</p>
       </Card>
     </NuxtLink>
-  </wrapper-button>
+  </Wrapper-Button>
   <Footer />
 </template>
 
 <script setup>
 const links = [
-  { title: "Entrar", path: "/login" },
-  { title: "Registrar-se", path: "/register" },
+  { title: "Entrar", path: "/auth/login" },
+  { title: "Registrar-se", path: "/auth/register" },
 ];
 </script>
 

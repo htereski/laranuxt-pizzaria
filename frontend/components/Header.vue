@@ -26,4 +26,3 @@ const { links } = defineProps(["links"]);
   font-family: "Inter", sans-serif;
 }
 </style>
-  

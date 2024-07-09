@@ -1,4 +1,7 @@
 <template>
+  <Head>
+    <Title>Entrar</Title>
+  </Head>
   <div class="image flex justify-center">
     <div
       class="max-h-[700px] h-full max-w-[600px] w-full px-[50px] m-auto flex items-center justify-center flex-col bg-white rounded-lg gap-[36px]"
@@ -7,13 +10,13 @@
       <Input type="email" title="E-mail" />
       <Input type="password" title="Senha" />
       <div class="max-w-[600px] w-full flex justify-end">
-        <NuxtLink to="/recover" class="text-[13px] font font-medium"
+        <NuxtLink to="/email/recover" class="text-[13px] font font-medium"
           >Esqueceu sua senha?</NuxtLink
         >
       </div>
-      <Button label="AVANÇAR" className="btn-primary" path="/" />
+      <Button label="AVANÇAR" className="btn-primary" path="/app/home" />
       <p class="text-[13px] font font-medium">Não tem uma conta?</p>
-      <Button label="REGISTRAR-SE" className="btn-secondary" path="/register" />
+      <Button label="REGISTRAR-SE" className="btn-secondary" path="/auth/register" />
     </div>
   </div>
 </template>
@@ -29,7 +32,7 @@
 
 .image::before {
   content: "";
-  background-image: url("../assets/img/login.jpg");
+  background-image: url("../../assets/img/login.jpg");
   background-size: cover;
   filter: brightness(50%);
   position: absolute;

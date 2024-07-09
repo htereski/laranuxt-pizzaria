@@ -1,4 +1,7 @@
 <template>
+  <Head>
+    <Title>Alterar E-mail</Title>
+  </Head>
   <div class="image flex justify-center">
     <div
       class="max-h-[700px] h-full max-w-[600px] w-full px-[50px] m-auto flex items-center justify-center flex-col bg-white rounded-lg gap-[36px]"

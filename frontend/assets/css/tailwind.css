@@ -11,6 +11,10 @@ body {
         @apply bg-[#000000];
     }
 
+    .text-primary {
+        @apply text-[#E3170A];
+    }
+
     .btn-primary {
         @apply bg-[#E3170A] text-white px-3 py-2 text-sm w-full max-w-[500px] h-[60px] flex justify-center items-center text-[13px];
     }
@@ -20,10 +24,14 @@ body {
     }
 
     .btn-card-remove {
-        @apply bg-[#E3170A] text-white text-[16px] w-[177px] h-[40px] block text-center content-center;
+        @apply bg-[#E3170A] text-white text-[13px] w-[177px] h-[40px] block text-center content-center;
     }
 
     .btn-card-edit {
-        @apply bg-[#3E000C] text-white text-[16px] w-[177px] h-[40px] block text-center content-center ;
+        @apply bg-[#3E000C] text-white text-[13px] w-[177px] h-[40px] block text-center content-center ;
+    }
+
+    .btn-remove {
+        @apply bg-[#E3170A] text-white text-[13px] min-w-[100px] h-[40px] block text-center content-center;
     }
 }
