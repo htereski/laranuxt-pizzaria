@@ -1,10 +1,10 @@
 <template>
-    <Header :links="links" />
-  </template>
+  <Header :links="links" />
+</template>
   
-  <script setup>
-  const links = [
-    { title: "Meu pedido", path: "/auth/login" },
-    { title: "Sair", path: "/auth/login" },
-  ];
-  </script>
+<script setup>
+const links = [
+  { title: "Meu pedido", path: "/app/order" },
+  { title: "Sair", path: "/auth/login" },
+];
+</script>

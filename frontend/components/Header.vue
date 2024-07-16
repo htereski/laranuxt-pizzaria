@@ -2,7 +2,7 @@
   <div
     class="background h-[100px] px-[20px] sm:px-[80px] flex items-center justify-between"
   >
-    <NuxtLink to="">
+    <NuxtLink to="/">
       <h1 class="logo">Laranuxt</h1>
     </NuxtLink>
     <nav class="flex gap-4 sm:gap-10 text-xs">

@@ -6,22 +6,22 @@
   <Banner />
   <Section title="Conheça" />
   <Wrapper-Button color="bg-[#D9D9D9]">
-    <NuxtLink to="/login"
+    <NuxtLink to="/auth/login"
       ><Card>
         <p class="font-light text-center text-[36px] font">4 Queijos</p>
       </Card>
     </NuxtLink>
-    <NuxtLink to="/login"
+    <NuxtLink to="/auth/login"
       ><Card>
         <p class="font-light text-center text-[36px] font">4 Queijos</p>
       </Card>
     </NuxtLink>
-    <NuxtLink to="/login"
+    <NuxtLink to="/auth/login"
       ><Card>
         <p class="font-light text-center text-[36px] font">4 Queijos</p>
       </Card>
     </NuxtLink>
-    <NuxtLink to="/login"
+    <NuxtLink to="/auth/login"
       ><Card>
         <p class="font-light text-center text-[36px] font">4 Queijos</p>
       </Card>
